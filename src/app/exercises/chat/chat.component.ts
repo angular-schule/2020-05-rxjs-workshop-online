@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, ReplaySubject, merge, concat, race, forkJoin } from 'rxjs';
+import { Subject, ReplaySubject, merge, concat, race, forkJoin, combineLatest, zip, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -26,9 +26,11 @@ export class ChatComponent implements OnInit {
      * - concat (Emit values from source 1, when complete, subscribe to source 2...)
      * - race (The observable to emit first is used.)
      * - forkJoin (When all observables complete, emit the last emitted value from each.)
+     * - combineLatest
+     * - zip
      */
 
-    concat(
+    merge(
       this.msg.julia$.pipe(map(msg => 'JULIA: ' + msg)),
       this.msg.georg$.pipe(map(msg => 'GEORG: ' + msg)),
       this.msg.john$.pipe(map(msg => 'JOHN: ' + msg))
@@ -36,6 +38,18 @@ export class ChatComponent implements OnInit {
       next: msg => this.log(msg),
       complete: () => this.log('Alle Teilnehmer weg.'),
     });
+
+
+    // Exkurs: eigener Operator
+    function myStartWith(...initialValues: string[]) {
+      return function(source$: Observable<any>): Observable<any> {
+        return concat(initialValues, source$);
+      };
+    }
+
+    of('A', 'B', 'C').pipe(
+      myStartWith('Z', 'X', 'Y')
+    ).subscribe(console.log);
 
 
     /******************************/

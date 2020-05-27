@@ -22,7 +22,8 @@ export class ErrorHandlingComponent {
 
         // return throwError('MEIN FEHLER'); // weiterwerfen
         // return of('Nichts', 'passiert!'); // ersetzen
-        return EMPTY; // verschlucken
+        // return EMPTY; // verschlucken
+        return of({ error: err });
       })
     ).subscribe({
       next: value => this.logStream$.next(value),

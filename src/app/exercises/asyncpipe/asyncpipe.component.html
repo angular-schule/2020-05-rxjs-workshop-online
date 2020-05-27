@@ -1,8 +1,8 @@
 <div class="row">
-  <div class="col text-center">
+  <div class="col text-center" *ngIf="result$ | async as myNumber">
     <h3>Output</h3>
     <div class="big-num">
-      {{ result }}
+      {{ myNumber }}
     </div>
   </div>
 </div>

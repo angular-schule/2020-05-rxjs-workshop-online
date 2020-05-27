@@ -29,6 +29,7 @@ export class MulticastComponent implements OnInit {
     // const books$ = this.http.get('/books').pipe(shareReplay(1));
 
     /*
+    this.measureValues$ = this.mvs.getValues().pipe(share());
     this.measureValues$ = this.mvs.getValues().pipe(
       publish(),
     ) as ConnectableObservable<number>;
